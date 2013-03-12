@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
+
 public class GUI extends JFrame{
 	/**
 	 * 
@@ -12,7 +12,7 @@ public class GUI extends JFrame{
 	JButton run;
 	RotatableShape line;
 	Paint p;
-	Lights l = new Lights(100);
+	Lights l = new Lights(1000);
 	Beats b = new Beats("C:\\Documents and Settings\\13chena\\Desktop\\Dota.wav");
 	ActionListener taskPerformer = new ActionListener() {
 		public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -25,16 +25,17 @@ public class GUI extends JFrame{
 
 	//constructs a new jframe
 	public GUI(RotatableShape g){
+		setTitle("Rotating Line");
 		line = g;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800,600);
 		this.stepButton();
 		this.playButton();
 		setVisible(true);
-		setTitle("Rotating Line");
-		p= new Paint(line,l);
-		p.setVisible(true);
+		p = new Paint(line,l);
 		this.add(p);
+		p.setVisible(true);
+		this.drawLine();
 	}
 
 	//creates a button that steps to the next generation
@@ -67,7 +68,7 @@ public class GUI extends JFrame{
 	}
 	//tells the step button what to do
 	private void stepButtonActionPerformed(){
-		line.rotate(.1);
+		line.rotate(.01);
 		drawLine(line);
 	}
 	public void getNextBeat(String[] s){
@@ -75,7 +76,7 @@ public class GUI extends JFrame{
 			b.setFileLocation(s[i++]);
 		}else{
 			i=0;
-			b.setFileLocation(s[i]);
+			b.setFileLocation(s[i++]);
 		}
 	}
 	//tells the play button what to do
@@ -83,8 +84,9 @@ public class GUI extends JFrame{
 		if(timer.isRunning()){
 			timer.stop();
 			l.off();
-			run.setText("Run");
 			b.stop();
+			run.setText("Run");
+			p.repaint();
 		}
 		else{
 			timer.start();
@@ -98,6 +100,5 @@ public class GUI extends JFrame{
 	public static void main(String[] args){
 		RotatableShape line = new RotatableLine(0,0, 800, 600);
 		GUI test = new GUI(line);
-		test.drawLine(line);
 	}
 }
