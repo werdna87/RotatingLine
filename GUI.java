@@ -3,6 +3,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 public class GUI extends JFrame{
+	/**
+	 * 
+	 */
+	//wanted me to add it, no idea what it does, also i wanted to do another test
+	private static final long serialVersionUID = 1L;
+	
 	JButton run;
 	RotatableShape line;
 	Paint p;
