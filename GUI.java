@@ -13,14 +13,14 @@ public class GUI extends JFrame{
 	RotatableShape line;
 	Paint p;
 	Lights l = new Lights(1000);
-	Beats b = new Beats("E:\\workspace32\\Rotating Line\\src\\Party.wav");
+	Beats b = new Beats("bin\\Party.wav");
 	ActionListener taskPerformer = new ActionListener() {
 		public void actionPerformed(java.awt.event.ActionEvent evt) {
 			stepButtonActionPerformed();
 		}
 	};
-	String[] beats = {"E:\\workspace32\\Rotating Line\\src\\Party.wav","E:\\workspace32\\Rotating Line\\src\\Style.wav"
-			,"E:\\workspace32\\Rotating Line\\src\\Dota.wav", "E:\\workspace32\\Rotating Line\\src\\RickRoll.wav"};
+	String[] beats = {"bin\\Party.wav","bin\\Style.wav"
+			,"bin\\Dota.wav", "bin\\RickRoll.wav"};
 	int i=0;
 	Timer timer = new Timer(10, taskPerformer);
 
