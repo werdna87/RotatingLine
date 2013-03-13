@@ -43,7 +43,7 @@ public class RotatableRegularPolygon extends RotatablePolygon{
 	 * @param Y2 y-coordinate of the latter endpoint
 	 */
 	public RotatableRegularPolygon(int x1, int y1, int x2, int y2){
-		super(x1, y1, x2, y2);
+		this(new int[]{(x1+x2)/2, (y1+y2)/2}, 3, 100);
 	}
 
 	/**Constructs a RotatableShape which forms the diagonal defined by the dimensions of a rectangle
