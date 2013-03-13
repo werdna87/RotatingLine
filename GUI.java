@@ -35,7 +35,7 @@ public class GUI extends JFrame{
 		p = new Paint(line,l);
 		this.add(p);
 		p.setVisible(true);
-		this.drawLine();
+		this.drawLine(line);
 	}
 
 	//creates a button that steps to the next generation
