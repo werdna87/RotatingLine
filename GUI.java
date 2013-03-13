@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 
 public class GUI extends JFrame{
 	/**
@@ -42,7 +43,20 @@ public class GUI extends JFrame{
 		p.setVisible(true);
 		this.drawLine(line);
 	}
-
+	public void stateChanged(ChangeEvent e) {
+	    JSlider source = (JSlider)e.getSource();
+	    if (!source.getValueIsAdjusting()) {
+	        int fps = (int)source.getValue();
+	        if (fps == 0) {
+	            if (!frozen) stopAnimation();
+	        } else {
+	            delay = 1000 / fps;
+	            timer.setDelay(delay);
+	            timer.setInitialDelay(delay * 10);
+	            if (frozen) startAnimation();
+	        }
+	    }
+	}
 	//creates a button that steps to the next generation
 	public void stepButton(){
 		JButton stepButton = new JButton();
