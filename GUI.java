@@ -8,7 +8,10 @@ public class GUI extends JFrame{
 	 */
 	//wanted me to add it, no idea what it does, also i wanted to do another test
 	private static final long serialVersionUID = 1L;
-	
+	static final int Speed_Min = 1;
+	static final int Speed_Max = 1000;
+	static final int Speed_Init = 100;
+	JSlider Speed = new JSlider(JSlider.VERTICAL,Speed_Min, Speed_Max, Speed_Init);
 	JButton run;
 	RotatableShape line;
 	Paint p;
@@ -34,6 +37,7 @@ public class GUI extends JFrame{
 		this.playButton();
 		setVisible(true);
 		p = new Paint(line,l);
+		Speed.add(p);
 		this.add(p);
 		p.setVisible(true);
 		this.drawLine(line);
@@ -99,7 +103,7 @@ public class GUI extends JFrame{
 	}
 	// test for commit
 	public static void main(String[] args){
-		RotatableShape line = new RotatableLine(0,0, 800, 600);
+		RotatableShape line = new RotatableFunkyQuad(0,0, 800, 600);
 		GUI test = new GUI(line);
 	}
 }

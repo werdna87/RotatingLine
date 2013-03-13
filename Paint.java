@@ -37,7 +37,7 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener{
 		}else{c=Color.black;}
 
 		g2.setColor(c);
-		g2.setStroke(new BasicStroke(1));
+		g2.setStroke(new BasicStroke(5));
 		g2.draw(shape);
 	}
 	
