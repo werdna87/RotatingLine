@@ -12,20 +12,22 @@ public class GUI extends JFrame{
 	static final int Speed_Min = 1;
 	static final int Speed_Max = 1000;
 	static final int Speed_Init = 100;
-	JSlider Speed = new JSlider(JSlider.VERTICAL,Speed_Min, Speed_Max, Speed_Init);
+	double rotateSpeed = .01;
+	int delay;
 	JButton run;
 	RotatableShape line;
 	Paint p;
-	Lights l = new Lights(1000);
+	Lights l = new Lights(100);
 	Beats b = new Beats("bin\\Party.wav");
 	ActionListener taskPerformer = new ActionListener() {
 		public void actionPerformed(java.awt.event.ActionEvent evt) {
 			stepButtonActionPerformed();
 		}
 	};
+	JPanel rotateSlider = new JPanel();
 	String[] beats = {"bin\\Party.wav","bin\\Style.wav"
 			,"bin\\Dota.wav", "bin\\RickRoll.wav"};
-	int i=0;
+	int songIndex=0;
 	Timer timer = new Timer(10, taskPerformer);
 
 	//constructs a new jframe
@@ -36,26 +38,19 @@ public class GUI extends JFrame{
 		setSize(800,600);
 		this.stepButton();
 		this.playButton();
+		this.speedSlider();
 		setVisible(true);
 		p = new Paint(line,l);
-		Speed.add(p);
 		this.add(p);
 		p.setVisible(true);
 		this.drawLine(line);
 	}
 	public void stateChanged(ChangeEvent e) {
-	    JSlider source = (JSlider)e.getSource();
-	    if (!source.getValueIsAdjusting()) {
-	        int fps = (int)source.getValue();
-	        if (fps == 0) {
-	            if (!frozen) stopAnimation();
-	        } else {
-	            delay = 1000 / fps;
-	            timer.setDelay(delay);
-	            timer.setInitialDelay(delay * 10);
-	            if (frozen) startAnimation();
-	        }
-	    }
+		JSlider source = (JSlider)e.getSource();
+		if (!source.getValueIsAdjusting()) {
+			int speed = (int)source.getValue();
+			rotateSpeed= speed/100;
+		}
 	}
 	//creates a button that steps to the next generation
 	public void stepButton(){
@@ -81,21 +76,38 @@ public class GUI extends JFrame{
 		});
 		getContentPane().add(run,BorderLayout.SOUTH);
 	}
+	public void speedSlider(){
+		JLabel sliderLabel = new JLabel("Rotate Speed");
+		JSlider Speed = new JSlider(JSlider.HORIZONTAL,Speed_Min, Speed_Max, Speed_Init);
+		sliderLabel.setAlignmentX(LEFT_ALIGNMENT);
+		Speed.setMajorTickSpacing(100);
+        Speed.setMinorTickSpacing(10);
+        Speed.setPaintTicks(true);
+        Speed.setPaintLabels(true);
+        Speed.setBorder(
+                BorderFactory.createEmptyBorder(0,0,10,0));
+        Font font = new Font("Serif", Font.ITALIC, 15);
+        Speed.setFont(font);
+        add(sliderLabel);
+        add(Speed);
+        Speed.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        
+	}
 	//draws the board onto the jframe
 	public void drawLine(RotatableShape original){
 		p.repaint();
 	}
 	//tells the step button what to do
 	private void stepButtonActionPerformed(){
-		line.rotate(.01);
+		line.rotate(rotateSpeed);
 		drawLine(line);
 	}
 	public void getNextBeat(String[] s){
-		if(i<s.length){
-			b.setFileLocation(s[i++]);
+		if(songIndex<s.length){
+			b.setFileLocation(s[songIndex++]);
 		}else{
-			i=0;
-			b.setFileLocation(s[i++]);
+			songIndex=0;
+			b.setFileLocation(s[songIndex++]);
 		}
 	}
 	//tells the play button what to do
