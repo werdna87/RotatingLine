@@ -40,7 +40,7 @@ public class GUI extends JFrame{
 		setSize(800,600);
 		this.stepButton();
 		this.playButton();
-		this.speedSlider();
+		rotateSlider.add(speedSlider());
 		setVisible(true);
 		p = new Paint(shapes,l);
 		add(p);
