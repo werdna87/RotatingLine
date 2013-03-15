@@ -145,6 +145,7 @@ public class GUI extends JFrame{
 	// test for commit
 	public static void main(String[] args){
 		RotatableShape line = new RotatableLine(0,0, 800, 600);
+		((RotatableLine)line).setLength(99999);
 		GUI test = new GUI(line);
 	}
 }
