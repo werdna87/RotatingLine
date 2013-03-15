@@ -15,7 +15,7 @@ public class Lights implements ActionListener{
 	private Color color = Color.WHITE;
 	private Color defaultColor = Color.WHITE;
 	private boolean change = false;
-	private Timer timer =  new Timer(5, this);
+	private Timer timer =  new Timer(50, this);
 	private int period;
 	private int count;
 	
@@ -90,14 +90,14 @@ public class Lights implements ActionListener{
 						0
 				);
 			//Second interval of change
-			}else if(period < count && count < 2*period){
+			}else if(period <= count && count < 2*period){
 				this.color = new Color(
 						0,
 						(int) (percent1 * Lights.FULLCOLOR),
 						(int) (percent2 * Lights.FULLCOLOR)
 				);
 			//Third interval of change
-			}else{
+			}else if(period <= 2*count && count < 3*period){
 				this.color = new Color(
 						(int) (percent2 * Lights.FULLCOLOR),
 						0,

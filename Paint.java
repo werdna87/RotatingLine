@@ -142,16 +142,16 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 		if(custom){
 			//first point
 			if(customX == -1 && customY == -1){
-				customX = e.getXOnScreen();
-				customY = e.getYOnScreen();
+				customX = e.getX();
+				customY = e.getY();
 				customRadii.add(convRad(customX, customY));
 				customAngles.add(convTheta(customX, customY));
 				repaint();
 				//not first point
 			}else{
 				// close the shape
-				if((customX + 50 > e.getXOnScreen() && customX - 50 < e.getXOnScreen()) &&
-						(customY + 50 > e.getYOnScreen() && customY - 50 < e.getYOnScreen())){					
+				if((customX + 50 > e.getX() && customX - 50 < e.getX()) &&
+						(customY + 50 > e.getY() && customY - 50 < e.getY())){					
 					custom = false;
 					shapesMenu.setSelectedIndex(0);
 					current = new RotatableFreePolygon(this.getWidth()/2, this.getHeight()/2,
@@ -164,8 +164,8 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 					this.repaint();
 					// continue shape
 				}else{
-					customRadii.add(convRad(e.getXOnScreen(), e.getYOnScreen()));
-					customAngles.add(convTheta(e.getXOnScreen(), e.getYOnScreen()));
+					customRadii.add(convRad(e.getX(), e.getY()));
+					customAngles.add(convTheta(e.getX(), e.getY()));
 				}
 			}
 		}

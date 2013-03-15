@@ -19,8 +19,9 @@ public class GUI extends JFrame{
 	JButton run;
 	ArrayList<RotatableShape> shapes = new ArrayList<RotatableShape>();
 	Paint p;
-	Lights l = new Lights(100);
+	Lights l = new Lights(50);
 	Beats b = new Beats("bin\\Party.wav");
+	
 	ActionListener taskPerformer = new ActionListener() {
 		public void actionPerformed(java.awt.event.ActionEvent evt) {
 			stepButtonActionPerformed();
@@ -34,20 +35,33 @@ public class GUI extends JFrame{
 
 	//constructs a new jframe
 	public GUI(RotatableShape g){
+		setLayout(new BorderLayout());
+        
 		setTitle("Rotating Line");
 		shapes.add(g);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800,600);
 		this.stepButton();
 		this.playButton();
-		rotateSlider.add(speedSlider());
+//		rotateSlider.add(speedSlider());
 		setVisible(true);
 		p = new Paint(shapes,l);
 		add(p);
 		p.setVisible(true);
 		p.repaint();
 	}
-	
+	public void addGridBag(){
+		GridBagLayout gridBag = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+        setFont(new Font("SansSerif", Font.PLAIN, 14));
+        setLayout(new BorderLayout());
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1.0;/*
+        add("Run", gridBag, c);
+        makebutton("Button2", gridBag, c);
+        makebutton("Button3", gridBag, c);*/
+
+	}
 	public void stateChanged(ChangeEvent e) {
 		JSlider source = (JSlider)e.getSource();
 		if (!source.getValueIsAdjusting()) {
@@ -130,7 +144,7 @@ public class GUI extends JFrame{
 	}
 	// test for commit
 	public static void main(String[] args){
-		RotatableShape line = new RotatableFunkyQuad(0,0, 800, 600);
+		RotatableShape line = new RotatableLine(0,0, 800, 600);
 		GUI test = new GUI(line);
 	}
 }
