@@ -26,9 +26,6 @@ public class Beats{
 	 */
 	
 	public Beats(String fileLocation){
-		JFrame j = new JFrame();
-		j.setVisible(true);
-		j.setVisible(false);
 		this.setFileLocation(fileLocation);
 	}
 	
