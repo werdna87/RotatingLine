@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class ShapeChooser extends JDialog implements PropertyChangeListener{
-  
+	
 	private Paint p;
 	private RotatableShape shape;
 	private String s;
