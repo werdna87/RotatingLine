@@ -178,9 +178,8 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 					(this.points.get(0).getX() + 50 > e.getX() && this.points.get(0).getX() - 50 < e.getX()) &&
 					(this.points.get(0).getY() + 50 > e.getY() && this.points.get(0).getY() - 50 < e.getY())){					
 				this.shapesMenu.setSelectedIndex(0);
-				this.current = new RotatableFreePolygon(this.getWidth()/2, this.getHeight()/2,
-						this.intConv(this.customRadii), this.doubleConv(this.customAngles));
-				this.shapes.add(current);
+				this.add(new RotatableFreePolygon(this.getWidth()/2, this.getHeight()/2,
+						this.intConv(this.customRadii), this.doubleConv(this.customAngles)));
 				this.clearCustom();
 				//continue adding shape points
 			}else{
@@ -238,6 +237,7 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 	// resets all custom shape options for the next custom shape
 	private void clearCustom(){
 		this.custom = false;
+		this.points.clear();
 		this.customRadii.clear();
 		this.customAngles.clear();
 	}
