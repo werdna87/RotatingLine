@@ -1,5 +1,5 @@
-/**
- * 
+/**JPanel on which shapes are drawn annd rotated.
+ * @author Andrew Borghesani
  */
 
 import java.awt.*;
@@ -10,27 +10,34 @@ import javax.swing.JComboBox;
 
 public class Paint extends JPanel implements MouseListener, MouseMotionListener, ActionListener{
 
-	ArrayList<RotatableShape> shapes = new ArrayList<RotatableShape>();
-	RotatableShape current;
-	JComboBox shapesMenu = new JComboBox(new String[]{"Add Shape",
+	private ArrayList<RotatableShape> shapes = new ArrayList<RotatableShape>();
+	private RotatableShape current;
+	private JComboBox shapesMenu = new JComboBox(new String[]{"Add Shape",
 			"Line", "Rectangle", "Regular Polygon", "Custom"});
 
-	Lights l;
-	Color c = Color.black;
+	private JComboBox currentMenu = new JComboBox(new String[]{"Select Shape"});
+	private String[] names = {"OutOfNames","NotALine","Alice","Bob","Carol","Dave","Eve",
+			"Joe","Mallory","Oscar","Peggy","Trent","Victor","Walter",
+			"foo","bar","spam","ham","eggs"};
 
-	boolean centered = true;
-	boolean drag = false;
-	int mouseIntX;
-	int mouseIntY;
-	int mouseFinX;
-	int mouseFinY;
+	private Lights l;
+	private Color c = Color.black;
 
-	boolean custom = false;
-	ArrayList<Integer> customRadii = new ArrayList<Integer>(); 
-	ArrayList<Double> customAngles = new ArrayList<Double>();
-	int customX = -1;
-	int customY = -1;
+	private boolean centered = true;
+	private boolean drag = false;
+	private int mouseIntX;
+	private int mouseIntY;
+	private int mouseFinX;
+	private int mouseFinY;
 
+	private boolean custom = false;
+	private ArrayList<Point> points = new ArrayList<Point>();
+	private ArrayList<Integer> customRadii = new ArrayList<Integer>(); 
+	private ArrayList<Double> customAngles = new ArrayList<Double>();
+
+	/**JPanel paint method
+	 * @param g the Graphics context in which to paint
+	 */
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		if(centered){
@@ -39,136 +46,150 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 		}
 		g2.setColor(l.getColor());
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-		g2.fillOval(this.getWidth()/2, this.getHeight()/2, 3, 3);
 
 		if(l.isOn()){
 			Color cc = l.getColor();
 			c=new Color(255-cc.getRed(),
 					255-cc.getGreen(),
 					255-cc.getBlue());
-		}else{c=Color.black;}
+		}else{c=Color.gray;}
 
 		g2.setColor(c);
-		g2.fillOval(this.getWidth()/2, this.getHeight()/2, 3, 3);
-		g2.setStroke(new BasicStroke(1));
+		g2.setStroke(new BasicStroke(3));
 		for(RotatableShape shape: shapes){
 			g2.draw(shape);
 		}
-		if(custom){
-			g2.fillOval (customX, customY, 3, 3);
+		// current shape drawing
+		g2.setColor(Color.BLACK);
+		g2.draw(current);
+		g2.fillOval(current.getCenterX(), current.getCenterY(), 2, 2);
+		//custom shape drawing
+		if(this.custom){
+			for(int i=1; i<this.points.size(); i++){
+				g2.drawLine((int)this.points.get(i-1).getX(), (int)this.points.get(i-1).getY(),
+						(int)this.points.get(i).getX(), (int)this.points.get(i).getY());
+			}
 		}
 	}
 
-
-	public Paint(ArrayList<RotatableShape> b,Lights l){
+	/**Class Constructor. Constructs Jpanel Paint
+	 * @param b ArrayList of RotatableShapes to be drawn
+	 * @param l Lights to use for background and foreground colors
+	 */
+	public Paint(ArrayList<RotatableShape> b,Lights l) {
 		shapes = b;
 		current = b.get(0);
+		this.currentMenu.addItem("Line");
 		this.l = l;
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		shapesMenu.addActionListener(this);
-		add(shapesMenu, BorderLayout.PAGE_START);
+		currentMenu.addActionListener(this);
+		add(shapesMenu);
+		add(currentMenu);
 	}
-
-	// adds a shape to the ArrayList shapes
+	/**Adds another RotatableShape to Paint and sets it to be current
+	 * @param shape RotatableShape to be added
+	 */
 	public void add(RotatableShape shape){
-		current = shape;
-		shapes.add(current);
+		this.current = shape;
+		this.shapes.add(current);
+		this.currentMenu.addItem(""+names[currentMenu.getItemCount()%names.length]);
 		this.repaint();
 	}
-	// sets the boolean centered which locks the shape to the center
+	/**Sets the current shape to the indexed shape
+	 * @param index index at which the shape is
+	 */
+	public void setCurrent(int index){
+		this.current = this.shapes.get(index);
+		this.repaint();
+	}
+	/**Sets whether the current shape should be locked to center
+	 * @param b boolean true or false
+	 */
 	public void setCentering(boolean b){
-		centered = b;
+		this.centered = b;
 	}
-	//shape menu options
+	/**Actions for the JComboBox Menu
+	 * @param e an ActionEvent
+	 */
 	public void actionPerformed(ActionEvent e){
-		if(custom == false){
-			JComboBox cb = (JComboBox)e.getSource();
-			String shape = (String)cb.getSelectedItem();
-			if(shape.equals("Custom")){
-				this.custom = true;
-			}else if(!shape.equals("Add Shape")){
-				custom = false;
-				customRadii.clear();
-				customAngles.clear();
-				customX = -1;
-				customY = -1;
-				ShapeChooser chooser = new ShapeChooser(shape, this);
-				cb.setSelectedIndex(0);
-			}
-		}
-	}
-
-	//locks shape onto mouse cursor when pressed
-	public void mousePressed(MouseEvent e){
-		mouseIntX = e.getXOnScreen();
-		mouseIntY = e.getYOnScreen();
-		if(		current.getCenterX() > mouseIntX-200 &&
-				current.getCenterX() < mouseIntX+200 &&
-				current.getCenterY() > mouseIntY-200 &&
-				current.getCenterY() < mouseIntY+200
-				){
-			drag = true;
-			centered = false;
-			mouseIntX = e.getXOnScreen();
-			mouseIntY = e.getYOnScreen();
-		}
-	}
-
-	//moves shape with mouse cursor
-	public void mouseDragged(MouseEvent e){
-		if(drag){
-			mouseFinX =  e.getXOnScreen();
-			mouseFinY =  e.getYOnScreen();
-			int difX = mouseFinX - mouseIntX;
-			int difY = mouseFinY - mouseIntY;
-			current.setCenterX(current.getCenterX()+difX);
-			current.setCenterY(current.getCenterY()+difY);
-			repaint();
-			mouseIntX = e.getXOnScreen();
-			mouseIntY = e.getYOnScreen();
-		}
-	}
-
-	//releases shape from mouse cursor when pressed
-	public void mouseReleased(MouseEvent e){
-		if(drag){
-			drag = false;
-		}
-	}
-
-	//unused overriden methods
-	public void mouseClicked(MouseEvent e){
-		if(custom){
-			//first point
-			if(customX == -1 && customY == -1){
-				customX = e.getX();
-				customY = e.getY();
-				customRadii.add(convRad(customX, customY));
-				customAngles.add(convTheta(customX, customY));
-				repaint();
-				//not first point
-			}else{
-				// close the shape
-				if((customX + 50 > e.getX() && customX - 50 < e.getX()) &&
-						(customY + 50 > e.getY() && customY - 50 < e.getY())){					
-					custom = false;
-					shapesMenu.setSelectedIndex(0);
-					current = new RotatableFreePolygon(this.getWidth()/2, this.getHeight()/2,
-							intConv(customRadii), doubleConv(customAngles));
-					shapes.add(current);
-					customRadii.clear();
-					customAngles.clear();
-					customX = -1;
-					customY = -1;
-					this.repaint();
-					// continue shape
-				}else{
-					customRadii.add(convRad(e.getX(), e.getY()));
-					customAngles.add(convTheta(e.getX(), e.getY()));
+		if(e.getSource()==this.shapesMenu){
+			if(this.custom == false){
+				JComboBox cb = (JComboBox)e.getSource();
+				String shape = (String)cb.getSelectedItem();
+				if(shape.equals("Custom")){
+					this.custom = true;
+				}else if(!shape.equals("Add Shape")){
+					this.clearCustom();
+					ShapeChooser chooser = new ShapeChooser(shape, this);
+					cb.setSelectedIndex(0);
 				}
 			}
 		}
+		if(e.getSource()==this.currentMenu){
+			if(currentMenu.getSelectedIndex()!=0){
+				this.setCurrent(currentMenu.getSelectedIndex()-1);
+			}
+		}
+		this.repaint();
+	}
+	/**Locks shape onto mouse cursor when pressed
+	 * @param e a MouseEvent
+	 */
+	public void mousePressed(MouseEvent e){
+		this.drag = true;
+		this.centered = false;
+		this.mouseIntX = e.getX();
+		this.mouseIntY = e.getY();
+	}
+
+	/**Moves shape with mouse cursor
+	 * @param e a MouseEvent
+	 */
+	public void mouseDragged(MouseEvent e){
+		if(this.drag){
+			this.mouseFinX =  e.getX();
+			this.mouseFinY =  e.getY();
+			int difX = this.mouseFinX - this.mouseIntX;
+			int difY = this.mouseFinY - this.mouseIntY;
+			this.current.setCenterX(this.current.getCenterX()+difX);
+			this.current.setCenterY(this.current.getCenterY()+difY);
+			repaint();
+			this.mouseIntX = e.getX();
+			this.mouseIntY = e.getY();
+		}
+	}
+	/**Releases shape from mouse cursor when pressed
+	 * @param e a MouseEvent
+	 */
+	public void mouseReleased(MouseEvent e){
+		if(this.drag){
+			this.drag = false;
+		}
+	}
+	/**Creates a new Custom Polygon if custom drawing is enabled
+	 * @param e a MouseEvent
+	 */
+	public void mouseClicked(MouseEvent e){
+		if(this.custom){
+			//close and end shape
+			if(this.points.size()!=0 &&
+					(this.points.get(0).getX() + 50 > e.getX() && this.points.get(0).getX() - 50 < e.getX()) &&
+					(this.points.get(0).getY() + 50 > e.getY() && this.points.get(0).getY() - 50 < e.getY())){					
+				this.shapesMenu.setSelectedIndex(0);
+				this.current = new RotatableFreePolygon(this.getWidth()/2, this.getHeight()/2,
+						this.intConv(this.customRadii), this.doubleConv(this.customAngles));
+				this.shapes.add(current);
+				this.clearCustom();
+				//continue adding shape points
+			}else{
+				this.points.add(e.getPoint());
+				this.customRadii.add(convRad(e.getX(), e.getY()));
+				this.customAngles.add(convTheta(e.getX(), e.getY()));
+			}
+		}
+		this.repaint();
 	}
 
 	// converts point to radius
@@ -214,8 +235,15 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 		return arr;
 	}
 
+	// resets all custom shape options for the next custom shape
+	private void clearCustom(){
+		this.custom = false;
+		this.customRadii.clear();
+		this.customAngles.clear();
+	}
+
+	//unused overriden methods
 	public void mouseEntered(MouseEvent arg0){}
 	public void mouseExited(MouseEvent arg0){}
 	public void mouseMoved(MouseEvent arg0){}
-
 }

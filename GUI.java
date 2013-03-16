@@ -1,5 +1,5 @@
-/**
- * 
+/**GUI JFrame for RotatingLine Project
+ * @author Andrew Borghesani
  */
 
 import java.awt.*;
@@ -40,7 +40,6 @@ public class GUI extends JFrame{
 		setTitle("Rotating Line");
 		shapes.add(g);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(800,600);
 		this.stepButton();
 		this.playButton();
 //		rotateSlider.add(speedSlider());
@@ -49,6 +48,7 @@ public class GUI extends JFrame{
 		add(p);
 		p.setVisible(true);
 		p.repaint();
+		setSize(800,600);
 	}
 	public void addGridBag(){
 		GridBagLayout gridBag = new GridBagLayout();
