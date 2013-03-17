@@ -12,7 +12,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class GUI extends JFrame{
+public class GUI extends JFrame implements ChangeListener{
 
 	static final int Speed_Min = 0;
 	static final int Speed_Max = 100;
@@ -45,8 +45,7 @@ public class GUI extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.stepButton();
 		this.playButton();
-		rotateSlider.add(speedSlider());
-		getContentPane().add(rotateSlider,BorderLayout.EAST);
+		speedSlider();
 		setVisible(true);
 		p = new Paint(shapes,l);
 		add(p);
@@ -70,7 +69,7 @@ public class GUI extends JFrame{
 		JSlider source = (JSlider)e.getSource();
 		if (source.getValueIsAdjusting()) {
 			int speed = (int)source.getValue();
-			rotateSpeed= speed/100.0;
+			rotateSpeed= speed/500.0;
 		}
 	}
 	//creates a button that steps to the next generation
@@ -97,12 +96,12 @@ public class GUI extends JFrame{
 		});
 		getContentPane().add(run,BorderLayout.SOUTH);
 	}
-	public JSlider speedSlider(){
+	public void  speedSlider(){
 		JLabel sliderLabel = new JLabel("Rotate Speed");
 		JSlider Speed = new JSlider(JSlider.VERTICAL,Speed_Min, Speed_Max, Speed_Init);
 		sliderLabel.setAlignmentX(CENTER_ALIGNMENT);
 //		It has to do with this line, IDK what a changelistener is
-        Speed.addChangeListener((ChangeListener) this);
+        Speed.addChangeListener(this);
 		Speed.setMajorTickSpacing(10);
 		Speed.setMinorTickSpacing(1);
 		Speed.setPaintTicks(true);
@@ -114,7 +113,8 @@ public class GUI extends JFrame{
 		add(sliderLabel);
 		add(Speed);
 		Speed.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
-		return Speed;
+		rotateSlider.add(Speed);
+		getContentPane().add(rotateSlider,BorderLayout.EAST);
 	}
 	//tells the step button what to do
 	private void stepButtonActionPerformed(){
