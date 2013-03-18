@@ -57,7 +57,7 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 		}else{c=Color.gray;}
 
 		g2.setColor(c);
-		g2.setStroke(new BasicStroke(3));
+		g2.setStroke(new BasicStroke(1));
 		for(RotatableShape shape: shapes){
 			g2.draw(shape);
 		}

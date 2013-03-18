@@ -14,7 +14,7 @@ import javax.swing.event.ChangeListener;
 
 public class GUI extends JFrame implements ChangeListener{
 
-	private static final int Speed_Min = 0;
+	private static final int Speed_Min = -100;
 	private static final int Speed_Max = 100;
 	private static final int Speed_Init = 10;
 	private double rotateSpeed = .01;
@@ -122,7 +122,7 @@ public class GUI extends JFrame implements ChangeListener{
 //		add(sliderLabel);
 		add(Speed);
 		rotateSlider.add(Speed);
-		getContentPane().add(rotateSlider,BorderLayout.EAST);
+		getContentPane().add(Speed,BorderLayout.EAST);
 	}
 	/**tells the step button what to do
 	 */
