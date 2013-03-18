@@ -90,13 +90,12 @@ public class GUI extends JFrame implements ChangeListener{
 		});
 		getContentPane().add(run,BorderLayout.SOUTH);
 	}
-	/**creates a button that continuously steps to the next generation
+	/**creates a button that continuously steps to the next line location
 	 */
 	private void  speedSlider(){
 		JLabel sliderLabel = new JLabel("Rotate Speed");
 		JSlider Speed = new JSlider(JSlider.VERTICAL,Speed_Min, Speed_Max, Speed_Init);
 		sliderLabel.setAlignmentX(CENTER_ALIGNMENT);
-//		It has to do with this line, IDK what a changelistener is
         Speed.addChangeListener(this);
 		Speed.setMajorTickSpacing(10);
 		Speed.setMinorTickSpacing(1);
