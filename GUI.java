@@ -106,13 +106,13 @@ public class GUI extends JFrame implements ChangeListener{
 		Speed.setMinorTickSpacing(1);
 		Speed.setPaintTicks(true);
 		Speed.setPaintLabels(true);
-		Speed.setBorder(
-				BorderFactory.createEmptyBorder());
+		Speed.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLoweredBevelBorder(),
+                BorderFactory.createEmptyBorder(0,10,0,10)));
 		Font font = new Font("Serif", Font.ITALIC, 15);
 		Speed.setFont(font);
-		add(sliderLabel);
+//		add(sliderLabel);
 		add(Speed);
-		Speed.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
 		rotateSlider.add(Speed);
 		getContentPane().add(rotateSlider,BorderLayout.EAST);
 	}
