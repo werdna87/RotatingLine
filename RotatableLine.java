@@ -82,7 +82,7 @@ public class RotatableLine extends RotatableShape{
 	 * @param radians angle of rotation in radians 
 	 */
 	public void rotate(double radians){
-		this.theta-=radians;
+		this.theta+=radians;
 	}
 	
 	/**Returns the x coordinate of one endpoint in direction theta

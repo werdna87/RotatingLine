@@ -15,7 +15,7 @@ public class Lights implements ActionListener{
 	private Color color = Color.WHITE;
 	private Color defaultColor = Color.WHITE;
 	private boolean change = false;
-	private Timer timer =  new Timer(50, this);
+	private Timer timer =  new Timer(20, this);
 	private int period;
 	private int count;
 	
@@ -77,7 +77,7 @@ public class Lights implements ActionListener{
 			if(this.count>=3*period){
 				this.count=0;
 			}
-			this.count+=5;
+			this.count+=1;
 			
 			double percent2 = (double)count % period / period;
 			double percent1 = 1-percent2;
