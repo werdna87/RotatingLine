@@ -57,6 +57,7 @@ public class ShapeChooser extends JDialog implements PropertyChangeListener{
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 		this.pack();
+		this.setLocation(100,100);
 	}
 	
 	/**Adds a shape to the Paint on "OK" 

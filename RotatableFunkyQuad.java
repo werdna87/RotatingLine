@@ -24,6 +24,7 @@ public class RotatableFunkyQuad extends RotatableShape{
 	/**Class constructor.
 	 */
 	public RotatableFunkyQuad(){
+		super();
 	}
 	
 	/**Constructs a RotatableFunkyQuad

@@ -26,6 +26,7 @@ public class RotatableRect extends RotatableShape{
 	/**Class constructor.
 	 */
 	public RotatableRect(){
+		super();
 	}
 	
 	/**Constructs a RotatableRect

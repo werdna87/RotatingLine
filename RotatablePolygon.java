@@ -25,6 +25,7 @@ public abstract class RotatablePolygon extends RotatableShape{
 	/**Class constructor.
 	 */
 	public RotatablePolygon(){
+		super();
 	}
 	
 	/**Constructs a RotatableShape defined by two points of a diagnol

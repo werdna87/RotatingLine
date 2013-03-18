@@ -15,6 +15,7 @@ public class RotatableFreePolygon extends RotatablePolygon{
 	/**Class constructor.
 	 */
 	public RotatableFreePolygon(){
+		super();
 	}
 	
 	/**Constructs a RotatableFreePolygon

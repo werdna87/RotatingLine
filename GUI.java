@@ -14,29 +14,30 @@ import javax.swing.event.ChangeListener;
 
 public class GUI extends JFrame implements ChangeListener{
 
-	static final int Speed_Min = 0;
-	static final int Speed_Max = 100;
-	static final int Speed_Init = 10;
-	double rotateSpeed = .01;
-	int delay;
-	JButton run;
-	ArrayList<RotatableShape> shapes = new ArrayList<RotatableShape>();
-	Paint p;
-	Lights l = new Lights(50);
-	Beats b = new Beats("bin\\Party.wav");
+	private static final int Speed_Min = 0;
+	private static final int Speed_Max = 100;
+	private static final int Speed_Init = 10;
+	private double rotateSpeed = .01;
+	private JButton run;
+	private ArrayList<RotatableShape> shapes = new ArrayList<RotatableShape>();
+	private Paint p;
+	private Lights l = new Lights(50);
+	private Beats b = new Beats("bin\\Party.wav");
 	
-	ActionListener taskPerformer = new ActionListener() {
+	private ActionListener taskPerformer = new ActionListener() {
 		public void actionPerformed(java.awt.event.ActionEvent evt) {
 			stepButtonActionPerformed();
 		}
 	};
-	JPanel rotateSlider = new JPanel();
-	String[] beats = {"bin\\Party.wav","bin\\Style.wav"
+	private JPanel rotateSlider = new JPanel();
+	private String[] beats = {"bin\\Party.wav","bin\\Style.wav"
 			,"bin\\Dota.wav", "bin\\RickRoll.wav"};
-	int songIndex=0;
-	Timer timer = new Timer(10, taskPerformer);
+	private int songIndex=0;
+	private Timer timer = new Timer(10, taskPerformer);
 
-	//constructs a new jframe
+	/**Constructs a new jframe
+	 * @param g an intitial RotatableShape
+	 */
 	public GUI(RotatableShape g){
 		setLayout(new BorderLayout());
         
@@ -65,6 +66,9 @@ public class GUI extends JFrame implements ChangeListener{
 //        makebutton("Button3", gridBag, c);*/
 //
 //	}
+	/**tells the slider what to do
+	 * @param e a Slider event
+	 */
 	public void stateChanged(ChangeEvent e) {
 		JSlider source = (JSlider)e.getSource();
 		if (source.getValueIsAdjusting()) {
@@ -72,8 +76,9 @@ public class GUI extends JFrame implements ChangeListener{
 			rotateSpeed= speed/500.0;
 		}
 	}
-	//creates a button that steps to the next generation
-	public void stepButton(){
+	/**creates a button that steps to the next generation
+	 */
+	private void stepButton(){
 		JButton stepButton = new JButton();
 		stepButton.setText("Step");
 		stepButton.setSize(new Dimension(20,20));
@@ -84,8 +89,9 @@ public class GUI extends JFrame implements ChangeListener{
 		});
 		getContentPane().add(stepButton,BorderLayout.NORTH);
 	}
-	//creates a button that 
-	public void playButton(){
+	/**creates a button that continuously steps to the next generation
+	 */
+	private void playButton(){
 		run = new JButton();
 		run.setText("Run");
 		run.setSize(new Dimension(20,20));
@@ -96,7 +102,9 @@ public class GUI extends JFrame implements ChangeListener{
 		});
 		getContentPane().add(run,BorderLayout.SOUTH);
 	}
-	public void  speedSlider(){
+	/**creates a button that continuously steps to the next generation
+	 */
+	private void  speedSlider(){
 		JLabel sliderLabel = new JLabel("Rotate Speed");
 		JSlider Speed = new JSlider(JSlider.VERTICAL,Speed_Min, Speed_Max, Speed_Init);
 		sliderLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -116,15 +124,18 @@ public class GUI extends JFrame implements ChangeListener{
 		rotateSlider.add(Speed);
 		getContentPane().add(rotateSlider,BorderLayout.EAST);
 	}
-	//tells the step button what to do
+	/**tells the step button what to do
+	 */
 	private void stepButtonActionPerformed(){
 		for(Rotatable shape : shapes){
 			shape.rotate(rotateSpeed);
 		}
 		p.repaint();
 	}
-	//gets the next filelocation and plays the file in the string array
-	public void getNextBeat(String[] s){
+	/**gets the next filelocation and plays the file in the string array
+	 * @param s a String array containing the file location of songs
+	 */
+	private void getNextBeat(String[] s){
 		if(songIndex<s.length){
 			b.setFileLocation(s[songIndex++]);
 		}else{
@@ -132,7 +143,8 @@ public class GUI extends JFrame implements ChangeListener{
 			b.setFileLocation(s[songIndex++]);
 		}
 	}
-	//tells the play button what to do
+	/**tells the play button what to do
+	 */
 	private void playButtonActionPerformed(){
 		if(timer.isRunning()){
 			timer.stop();

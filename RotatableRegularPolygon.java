@@ -14,11 +14,11 @@ public class RotatableRegularPolygon extends RotatablePolygon{
 	/**Class constructor.
 	 */
 	public RotatableRegularPolygon(){
+		super();
 	}
 
 	/**Constructs a RotatableRegularPolygon 
-	 * @param centerX x-coordinate of the midpoint
-	 * @param centerY y-coordinate of the midpoint
+	 * @param center an array containing a pair of int designating the center point
 	 * @param lengths an array of lengths from the center to the point
 	 * @param angles an array of angles in normal position to the point
 	 */
