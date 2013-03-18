@@ -29,7 +29,6 @@ public class GUI extends JFrame implements ChangeListener{
 			stepButtonActionPerformed();
 		}
 	};
-	private JPanel rotateSlider = new JPanel();
 	private String[] beats = {"bin\\Party.wav","bin\\Style.wav"
 			,"bin\\Dota.wav", "bin\\RickRoll.wav"};
 	private int songIndex=0;
@@ -54,18 +53,7 @@ public class GUI extends JFrame implements ChangeListener{
 		p.repaint();
 		setSize(800,600);
 	}
-//	public void addGridBag(){
-//		GridBagLayout gridBag = new GridBagLayout();
-//		GridBagConstraints c = new GridBagConstraints();
-//        setFont(new Font("SansSerif", Font.PLAIN, 14));
-//        setLayout(new BorderLayout());
-//        c.fill = GridBagConstraints.BOTH;
-//        c.weightx = 1.0;/*
-//        add("Run", gridBag, c);
-//        makebutton("Button2", gridBag, c);
-//        makebutton("Button3", gridBag, c);*/
-//
-//	}
+
 	/**tells the slider what to do
 	 * @param e a Slider event
 	 */
@@ -119,9 +107,6 @@ public class GUI extends JFrame implements ChangeListener{
                 BorderFactory.createEmptyBorder(0,10,0,10)));
 		Font font = new Font("Serif", Font.ITALIC, 15);
 		Speed.setFont(font);
-//		add(sliderLabel);
-		add(Speed);
-		rotateSlider.add(Speed);
 		getContentPane().add(Speed,BorderLayout.EAST);
 	}
 	/**tells the step button what to do

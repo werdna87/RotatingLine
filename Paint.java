@@ -74,7 +74,6 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 						(int)this.points.get(i).getX(), (int)this.points.get(i).getY());
 			}
 		}
-		repaint();
 	}
 
 	/**Class Constructor. Constructs JPanel Paint
