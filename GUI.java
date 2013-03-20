@@ -14,9 +14,6 @@ import javax.swing.event.ChangeListener;
 
 public class GUI extends JFrame implements ChangeListener{
 
-	private static final int Speed_Min = -100;
-	private static final int Speed_Max = 100;
-	private static final int Speed_Init = 10;
 	private double rotateSpeed = .01;
 	private JButton run;
 	private ArrayList<RotatableShape> shapes = new ArrayList<RotatableShape>();
@@ -94,7 +91,7 @@ public class GUI extends JFrame implements ChangeListener{
 	 */
 	private void  speedSlider(){
 		JLabel sliderLabel = new JLabel("Rotate Speed");
-		JSlider Speed = new JSlider(JSlider.VERTICAL,Speed_Min, Speed_Max, Speed_Init);
+		JSlider Speed = new JSlider(JSlider.VERTICAL,-100, 100, 10);
 		sliderLabel.setAlignmentX(CENTER_ALIGNMENT);
         Speed.addChangeListener(this);
 		Speed.setMajorTickSpacing(10);

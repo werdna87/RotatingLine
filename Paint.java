@@ -36,16 +36,27 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 	private ArrayList<Point> points = new ArrayList<Point>();
 	private ArrayList<Integer> customRadii = new ArrayList<Integer>(); 
 	private ArrayList<Double> customAngles = new ArrayList<Double>();
-	
+
 	/**JPanel paint method
 	 * @param g the Graphics context in which to paint
 	 */
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		if(centered && !allSelected){
+		g2.setStroke(new BasicStroke(5));
+
+		if(centered && !allSelected &&((BasicStroke)g2.getStroke()).getLineWidth()>1){
+			current.setCenterX(this.getWidth()/2+ 2*this.getX());
+			current.setCenterY(this.getHeight()/2+ 2*this.getY());
+		}
+		else if(centered && !allSelected){
 			current.setCenterX(this.getWidth()/2);
 			current.setCenterY(this.getHeight()/2);
 		}
+//		if(((BasicStroke)g2.getStroke()).getLineWidth()>1){
+//			current.setCenterX((current.getCenterX()+ this.getX()));
+//			current.setCenterY((current.getCenterY()+ this.getY()));
+//			System.out.println("Hi");
+//		}
 		g2.setColor(l.getColor());
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 
@@ -57,7 +68,6 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 		}else{c=Color.gray;}
 
 		g2.setColor(c);
-		g2.setStroke(new BasicStroke(1));
 		for(RotatableShape shape: shapes){
 			g2.draw(shape);
 		}
@@ -65,9 +75,9 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 		if(current!=null){
 			g2.setColor(Color.BLACK);
 			g2.draw(current);
-			g2.fillOval(current.getCenterX(), current.getCenterY(), 2, 2);
+//			g2.fillOval(current.getCenterX(), current.getCenterY(), 2, 2);
 		}
-		//custom shape drawing
+//		//custom shape drawing
 		if(this.custom){
 			for(int i=1; i<this.points.size(); i++){
 				g2.drawLine((int)this.points.get(i-1).getX(), (int)this.points.get(i-1).getY(),
@@ -93,7 +103,7 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 		add(shapesMenu);
 		add(currentMenu);
 	}
-	
+
 	/**Adds another RotatableShape to Paint and sets it to be current
 	 * @param shape RotatableShape to be added
 	 */
@@ -104,7 +114,7 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 		this.currentMenu.setSelectedIndex(this.currentMenu.getItemCount()-1);
 		this.repaint();
 	}
-	
+
 	/**Sets the current shape to the indexed shape
 	 * @param index index at which the shape is
 	 */
@@ -118,14 +128,14 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 		}
 		this.repaint();
 	}
-	
+
 	/**Sets whether the current shape should be locked to center
 	 * @param b boolean true or false
 	 */
 	public void setCentering(boolean b){
 		this.centered = b;
 	}
-	
+
 	/**Actions for the JComboBox Menus
 	 * @param e an ActionEvent
 	 */
@@ -138,7 +148,7 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 		}
 		this.repaint();
 	}
-	
+
 	/**Actions for the JComboBox ShapeMenu
 	 */
 	private void shapesMenuAction(){
@@ -153,7 +163,7 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 			}
 		}
 	}
-	
+
 	/**Actions for the JComboBox CurrentMenu
 	 */
 	private void customMenuAction(){
@@ -197,7 +207,7 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 			this.mouseIntY = e.getY();
 		}
 	}
-	
+
 	/**Releases shape from mouse cursor when pressed
 	 * @param e a MouseEvent
 	 */
@@ -206,7 +216,7 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 			this.drag = false;
 		}
 	}
-	
+
 	/**Creates a new Custom Polygon if custom drawing is enabled
 	 * @param e a MouseEvent
 	 */
@@ -220,7 +230,7 @@ public class Paint extends JPanel implements MouseListener, MouseMotionListener,
 				this.add(new RotatableFreePolygon(this.getWidth()/2, this.getHeight()/2,
 						this.intConv(this.customRadii), this.doubleConv(this.customAngles)));
 				this.clearCustom();
-			//continue adding shape points
+				//continue adding shape points
 			}else{
 				this.points.add(e.getPoint());
 				this.customRadii.add(convRad(e.getX(), e.getY()));
